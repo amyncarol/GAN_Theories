@@ -11,7 +11,7 @@ def lrelu(x, leak=0.2, name="lrelu"):
 class G_conv(object):
 	def __init__(self, channel=3, name='G_conv'):
 		self.name = name
-		self.size = 64/16
+		self.size = int(64/16)
 		self.channel = channel
 
 	def __call__(self, z):
