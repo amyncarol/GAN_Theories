@@ -115,7 +115,7 @@ if __name__ == '__main__':
 	generator = G_conv()
 	discriminator = D_autoencoder()
 
-	data = cifar()
+	data = mnist()
 
 	# run
 	began = BEGAN(generator, discriminator, data)
