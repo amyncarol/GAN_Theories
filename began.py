@@ -104,7 +104,7 @@ class BEGAN():
 if __name__ == '__main__':
 
 	# constraint GPU
-	os.environ['CUDA_VISIBLE_DEVICES'] = '1'
+	#os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 
 	# save generated images
 	sample_dir = 'Samples/began'
