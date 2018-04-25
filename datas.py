@@ -41,7 +41,7 @@ class Data(object):
 
 		batch = [get_img(img_path, is_crop, crop_h, self.size) for img_path in path_list]
 		batch_imgs = np.array(batch).astype(np.float32)
-		
+	
 		return batch_imgs
 
 	def data2fig(self, samples, reshape=False, cmap=None):
