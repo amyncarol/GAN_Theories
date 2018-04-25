@@ -107,15 +107,14 @@ if __name__ == '__main__':
 	#os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 
 	# save generated images
-	sample_dir = 'Samples/began'
+	sample_dir = 'Samples/began_imaterials_20'
 	if not os.path.exists(sample_dir):
 		os.makedirs(sample_dir)
 
 	# param
 	generator = G_conv()
 	discriminator = D_autoencoder()
-
-	data = celebA()
+	data = imaterials(20)
 
 	# run
 	began = BEGAN(generator, discriminator, data)

@@ -81,10 +81,6 @@ class imaterials(Data):
 		datapath = prefix + 'imaterials/' + str(class_id)
 		self.data = glob(os.path.join(datapath, '*.jpeg'))
 
-	def __call__(self, batch_size):
-		return super().__call__(batch_size, is_crop=True, crop_h=256)
-
-
 class cifar(Data):
 	def __init__(self):
 		super().__init__()
@@ -92,9 +88,6 @@ class cifar(Data):
 		self.batch_count = 0
 		datapath = prefix + 'cifar10'
 		self.data = glob(os.path.join(datapath, '*'))
-
-	def __call__(self,batch_size):
-		return super().__call__(batch_size, is_crop=False)
 		
 class mnist(Data):
 	def __init__(self):
