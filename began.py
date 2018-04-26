@@ -65,7 +65,7 @@ class BEGAN():
 		tf.summary.scalar('L_real', L_real)
 		tf.summary.scalar('G_loss', self.G_loss)
 		tf.summary.scalar('D_loss', self.D_loss)
-		tf.summary.scalar('learning_rate', self.learning_rate)
+		#tf.summary.scalar('learning_rate', self.learning_rate)
 		self.summary = tf.summary.merge_all()
 		self.summary_writer = tf.summary.FileWriter('Models/', self.sess.graph)
 
