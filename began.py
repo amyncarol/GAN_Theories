@@ -59,6 +59,16 @@ class BEGAN():
 		self.sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))
 		self.model_name = 'Models/began.ckpt'
 
+		##tf summary
+		tf.summary.scalar('M_global', self.M_global)
+		tf.summary.scalar('k_t', self.k_t)
+		tf.summary.scalar('L_real', L_real)
+		tf.summary.scaler('G_loss', self.G_loss)
+		tf.summary.scaler('D_loss', self.D_loss)
+		tf.summary.scaler('learning_rate', self.learning_rate)
+		self.summary = tf.summary.merge_all()
+		self.summary_writer = tf.summary.FileWriter('Models/', self.sess.graph)
+
 	def train(self, sample_dir, training_epoches = 500000, batch_size = 16):
 		fig_count = 0
 		self.sess.run(tf.global_variables_initializer())
@@ -76,10 +86,12 @@ class BEGAN():
 				)
 			# save img, model. print loss
 			if epoch % 100 == 0 or epoch < 100:
-				D_loss_curr, G_loss_curr, M_global_curr = self.sess.run(
-						[self.D_loss, self.G_loss, self.M_global],
+				D_loss_curr, G_loss_curr, M_global_curr, summary_str = self.sess.run(
+						[self.D_loss, self.G_loss, self.M_global, self.summary],
             			feed_dict={self.X: X_b, self.z: sample_z(batch_size, self.z_dim), self.k_t: min(max(k_tn, 0.), 1.)})
-				print('Iter: {}; D loss: {:.4}; G_loss: {:.4}; M_global: {:.4}; k_t: {:.6}; learning_rate:{:.8}'.format(epoch, D_loss_curr, G_loss_curr, M_global_curr, min(max(k_tn, 0.), 1.), learning_rate))
+				print('Iter: {}; D_loss: {:.4}; G_loss: {:.4}; M_global: {:.4}; k_t: {:.6}; learning_rate:{:.8}'.format(epoch, D_loss_curr, G_loss_curr, M_global_curr, min(max(k_tn, 0.), 1.), learning_rate))
+				self.summary_writer.add_summary(summary_str, epoch)
+				self.summary_writer.flush()
 
 				if epoch % 1000 == 0:
 					X_s, real, samples = self.sess.run([self.X, self.D_real, self.G_sample], feed_dict={self.X: X_b[:16,:,:,:], self.z: sample_z(16, self.z_dim)})
@@ -107,7 +119,7 @@ if __name__ == '__main__':
 	#os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 
 	# save generated images
-	sample_dir = 'Samples/began_celebA_second_try'
+	sample_dir = 'Samples/began'
 	if not os.path.exists(sample_dir):
 		os.makedirs(sample_dir)
 
