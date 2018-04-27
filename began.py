@@ -51,7 +51,7 @@ class BEGAN():
 		self.M_global = L_real + tf.abs(gamma*L_real - L_fake)		
 	
 		# solver
-		self.learning_rate = tf.placeholder(tf.float32, shape=[])
+		self.learning_rate = tf.placeholder(tf.float32, shape=[], name='learning_rate')
 		self.D_solver = tf.train.AdamOptimizer(learning_rate=self.learning_rate).minimize(self.D_loss, var_list=self.discriminator.vars)
 		self.G_solver = tf.train.AdamOptimizer(learning_rate=self.learning_rate).minimize(self.G_loss, var_list=self.generator.vars)
 		
