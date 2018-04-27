@@ -123,6 +123,8 @@ if __name__ == '__main__':
 	sample_dir = 'Samples/began_imaterials_20'
 	model_dir = 'Models/began_imaterials_20'
 	data_dir = 'imaterials/20'
+	data = imaterials(data_dir)
+	
 	if not os.path.exists(sample_dir):
 		os.makedirs(sample_dir)
 	if not os.path.exists(model_dir):
@@ -131,7 +133,6 @@ if __name__ == '__main__':
 	# param
 	generator = G_conv()
 	discriminator = D_autoencoder()
-	data = celebA(data_dir)
 
 	# run
 	began = BEGAN(generator, discriminator, data, model_dir)
