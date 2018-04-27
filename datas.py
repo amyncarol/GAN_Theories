@@ -63,22 +63,22 @@ class Data(object):
 
 
 class celebA(Data):
-	def __init__(self):
+	def __init__(self, folder):
 		super().__init__()
 		self.channel = 3
 		self.batch_count = 0
-		datapath = prefix + 'celebA'
+		datapath = os.path.join(prefix, folder)
 		self.data = glob(os.path.join(datapath, '*.jpg'))
 
 	def __call__(self, batch_size):
 		return super().__call__(batch_size, is_crop=True, crop_h=128)
 
 class imaterials(Data):
-	def __init__(self, class_id):
+	def __init__(self, folder):
 		super().__init__()
 		self.channel = 3
 		self.batch_count = 0
-		datapath = prefix + 'imaterials/' + str(class_id)
+		datapath = os.path.join(prefix, folder)
 		self.data = glob(os.path.join(datapath, '*.jpeg'))
 
 class cifar(Data):

@@ -15,10 +15,11 @@ def sample_z(m, n):
 	return np.random.uniform(-1., 1., size=[m, n])
 
 class BEGAN():
-	def __init__(self, generator, discriminator, data):
+	def __init__(self, generator, discriminator, data, model_path):
 		self.generator = generator
 		self.discriminator = discriminator
 		self.data = data
+		self.model_path = model_path
 
 		# data
 		self.z_dim = self.data.z_dim
@@ -57,7 +58,7 @@ class BEGAN():
 		self.saver = tf.train.Saver()
 		gpu_options = tf.GPUOptions(allow_growth=True)
 		self.sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))
-		self.model_name = 'Models/began.ckpt'
+		self.model_name = os.path.join(self.model_path, 'began.ckpt')
 
 		##tf summary
 		tf.summary.scalar('M_global', self.M_global)
@@ -67,7 +68,7 @@ class BEGAN():
 		tf.summary.scalar('D_loss', self.D_loss)
 		#tf.summary.scalar('learning_rate', self.learning_rate)
 		self.summary = tf.summary.merge_all()
-		self.summary_writer = tf.summary.FileWriter('Models/', self.sess.graph)
+		self.summary_writer = tf.summary.FileWriter(self.model_path, self.sess.graph)
 
 	def train(self, sample_dir, training_epoches = 500000, batch_size = 16):
 		fig_count = 0
@@ -118,17 +119,21 @@ if __name__ == '__main__':
 	# constraint GPU
 	#os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 
-	# save generated images
-	sample_dir = 'Samples/began'
+	# input and output folders
+	sample_dir = 'Samples/began_celebA_2000_second_try'
+	model_dir = 'Models/began_celebA_2000_second_try'
+	data_dir = 'celeA_2000'
 	if not os.path.exists(sample_dir):
 		os.makedirs(sample_dir)
+	if not os.path.exists(model_dir):
+		os.makedirs(model_dir)
 
 	# param
 	generator = G_conv()
 	discriminator = D_autoencoder()
-	data = celebA()
+	data = celebA(data_dir)
 
 	# run
-	began = BEGAN(generator, discriminator, data)
+	began = BEGAN(generator, discriminator, data, model_dir)
 	began.train(sample_dir)
 
