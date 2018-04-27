@@ -122,7 +122,7 @@ if __name__ == '__main__':
 	# input and output folders
 	sample_dir = 'Samples/began_celebA_2000_second_try'
 	model_dir = 'Models/began_celebA_2000_second_try'
-	data_dir = 'celeA_2000'
+	data_dir = 'celebA_2000'
 	if not os.path.exists(sample_dir):
 		os.makedirs(sample_dir)
 	if not os.path.exists(model_dir):
