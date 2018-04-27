@@ -31,8 +31,8 @@ class BEGAN():
 
 		# began parameters
 		self.k_t =  tf.placeholder(tf.float32, shape=[]) # weighting parameter which constantly updates during training
-		gamma = 1.0  # diversity ratio, used to control model equibilibrium.
-		lambda_k = 0.001 # learning rate for k. Berthelot et al. use 0.001
+		gamma = 1  # diversity ratio, used to control model equibilibrium.
+		lambda_k = 0.002 # learning rate for k. Berthelot et al. use 0.001
 
 		# nets
 		self.G_sample = self.generator(self.z)
@@ -120,8 +120,8 @@ if __name__ == '__main__':
 	#os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 
 	# input and output folders
-	sample_dir = 'Samples/began_imaterials_20'
-	model_dir = 'Models/began_imaterials_20'
+	sample_dir = 'Samples/began_imaterials_20_gamma1_lambda0002'
+	model_dir = 'Models/began_imaterials_20_gamma1_lambda0002'
 	data_dir = 'imaterials/20'
 	data = imaterials(data_dir)
 	
