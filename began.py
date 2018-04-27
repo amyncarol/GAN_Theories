@@ -120,8 +120,8 @@ if __name__ == '__main__':
 	#os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 
 	# input and output folders
-	sample_dir = 'Samples/began_celebA_2000_second_try'
-	model_dir = 'Models/began_celebA_2000_second_try'
+	sample_dir = 'Samples/began_celebA_2000_third_try'
+	model_dir = 'Models/began_celebA_2000_third_try'
 	data_dir = 'celebA_2000'
 	if not os.path.exists(sample_dir):
 		os.makedirs(sample_dir)
