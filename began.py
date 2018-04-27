@@ -31,7 +31,7 @@ class BEGAN():
 
 		# began parameters
 		self.k_t =  tf.placeholder(tf.float32, shape=[]) # weighting parameter which constantly updates during training
-		gamma = 0.75  # diversity ratio, used to control model equibilibrium.
+		gamma = 1.00  # diversity ratio, used to control model equibilibrium.
 		lambda_k = 0.001 # learning rate for k. Berthelot et al. use 0.001
 
 		# nets
