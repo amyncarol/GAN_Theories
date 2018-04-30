@@ -129,8 +129,8 @@ if __name__ == '__main__':
     #os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 
     # input and output folders
-    sample_dir = 'Samples/began_imaterials_20_gamma1_lambda0002'
-    model_dir = 'Models/began_imaterials_20_gamma1_lambda0002'
+    sample_dir = 'Samples/began_imaterials_20_test'
+    model_dir = 'Models/began_imaterials_20_test'
     tfrecord_names = ['Datas/imaterials_tfrecord/20.tfrecord']
     
     if not os.path.exists(sample_dir):
