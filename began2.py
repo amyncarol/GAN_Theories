@@ -6,6 +6,7 @@ mpl.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import os,sys
+import glob
 
 sys.path.append('utils')
 from nets import *
@@ -13,8 +14,9 @@ from data_utils import parser, data2fig
 
 Z_DIM = 100
 BATCH_SIZE = 16
-GAMMA = 1
-LAMBDA_K = 0.002
+GAMMA = 0.75
+LAMBDA_K = 0.001
+K_INIT = 0
 
 def sample_z(m, n):
     return np.random.uniform(-1., 1., size=[m, n])
@@ -31,6 +33,7 @@ class BEGAN():
         # training dataset
         dataset = tf.data.TFRecordDataset(tfrecord_names)
         dataset = dataset.map(parser)
+        dataset = dataset.shuffle(buffer_size=10000)
         dataset = dataset.batch(BATCH_SIZE)
         dataset = dataset.repeat()
         iterator = dataset.make_one_shot_iterator()
@@ -85,7 +88,7 @@ class BEGAN():
         self.sess.run(tf.global_variables_initializer())
         #self.saver.restore(self.sess, self.model_name)     
 
-        k_tn = 0
+        k_tn = K_INIT
         learning_rate_initial = 1e-4
         for epoch in range(training_epoches):
             learning_rate =  learning_rate_initial * pow(0.5, epoch // 50000)
@@ -129,9 +132,13 @@ if __name__ == '__main__':
     #os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 
     # input and output folders
-    sample_dir = 'Samples/began_fonts_wt071'
-    model_dir = 'Models/began_fonts_wt071'
-    tfrecord_names = ['Datas/fonts/wt071/data.tfrecord']
+    # sample_dir = 'Samples/began_fonts_wt071'
+    # model_dir = 'Models/began_fonts_wt071'
+    # tfrecord_names = ['Datas/fonts/wt071/data.tfrecord']
+
+    sample_dir = 'Samples/began_imaterials_full'
+    model_dir = 'Models/began_imaterials_full'
+    tfrecord_names = glob.glob('Datas/imaterials_tfrecord/*.tfrecord')
     
     if not os.path.exists(sample_dir):
         os.makedirs(sample_dir)
