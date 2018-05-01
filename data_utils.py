@@ -93,6 +93,25 @@ def write_tfrecord(class_i, tfrecord_folder):
                 print('processed {} image, which takes {} sec'.format(counter, time.time()-start_time))
     writer.close()
 
+def write_tfrecord_general(tfrecord_folder):
+    start_time = time.time()
+    counter = 0
+    writer = tf.python_io.TFRecordWriter(os.path.join(tfrecord_folder, 'data.tfrecord'))
+    images = glob(os.path.join(tfrecord_folder, '*.jpg'))
+    for image in images:
+        img = Image.open(image)
+        img = np.array(img.resize((IMAGE_SIZE, IMAGE_SIZE)))
+        label = 0
+        feature = {'label': _int64_feature(label),
+            'image': _bytes_feature(img.tostring())}
+        example = tf.train.Example(features=tf.train.Features(feature=feature))
+        writer.write(example.SerializeToString())
+        counter += 1
+        if counter % 100 == 0:
+            print('processed {} image, which takes {} sec'.format(counter, time.time()-start_time))
+    writer.close()
+
+
 def parser(record):
     """
     Use `tf.parse_single_example()` to extract data from a `tf.Example`
@@ -111,6 +130,13 @@ def parser(record):
     label = tf.cast(parsed["label"], tf.int32)
 
     return image, label
+
+## to be implemented
+# def img_aug(record):
+#     image = record[0]
+#     label = record[1]
+#     records = (tf.zeros((5, image.shape[0], image.shape[1], image.shape[2])), tf.zeros(5))
+
 
 def data2fig(samples):
     fig = plt.figure(figsize=(4, 4))
@@ -135,9 +161,12 @@ if __name__=='__main__':
     #   resize_images_in_folder('/Users/yao/Google Drive/projects_ml/GAN_Theories/Datas/imaterials_original/'+str(i),\
     #       '/Users/yao/Google Drive/projects_ml/GAN_Theories/Datas/imaterials/'+str(i))
 
-    #write_tfrecord(20, './Datas/imaterials_tfrecord')
+    # for i in range(1, 129):
+    #     print('class {}'.format(i))
+    #     write_tfrecord(i, './Datas/imaterials_tfrecord')
+    write_tfrecord_general('./Datas/fonts/wt071')
 
-    filenames = ["./Datas/imaterials_tfrecord/20.tfrecord"]
+    filenames = ["./Datas/fonts/wt071/data.tfrecord"]
     dataset = tf.data.TFRecordDataset(filenames)
     dataset = dataset.map(parser)
     dataset = dataset.batch(16)
