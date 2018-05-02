@@ -11,6 +11,10 @@ sys.path.append('utils')
 from nets import *
 from datas import *
 
+GAMMA = 0.75
+LAMDBA_K = 0.01
+EPOCHS = 50000
+
 def sample_z(m, n):
 	return np.random.uniform(-1., 1., size=[m, n])
 
@@ -31,8 +35,8 @@ class BEGAN():
 
 		# began parameters
 		self.k_t =  tf.placeholder(tf.float32, shape=[]) # weighting parameter which constantly updates during training
-		gamma = 1  # diversity ratio, used to control model equibilibrium.
-		lambda_k = 0.002 # learning rate for k. Berthelot et al. use 0.001
+		gamma = GAMMA  # diversity ratio, used to control model equibilibrium.
+		lambda_k = LAMDBA_K # learning rate for k. Berthelot et al. use 0.001
 
 		# nets
 		self.G_sample = self.generator(self.z)
@@ -70,7 +74,7 @@ class BEGAN():
 		self.summary = tf.summary.merge_all()
 		self.summary_writer = tf.summary.FileWriter(self.model_path, self.sess.graph)
 
-	def train(self, sample_dir, training_epoches = 500000, batch_size = 16):
+	def train(self, sample_dir, training_epoches = EPOCHS, batch_size = 16):
 		fig_count = 0
 		self.sess.run(tf.global_variables_initializer())
 		#self.saver.restore(self.sess, self.model_name)		
@@ -115,15 +119,14 @@ class BEGAN():
 					self.saver.save(self.sess, self.model_name)
 
 if __name__ == '__main__':
-
 	# constraint GPU
 	#os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 
 	# input and output folders
-	sample_dir = 'Samples/began_imaterials_20_gamma1_lambda0002'
-	model_dir = 'Models/began_imaterials_20_gamma1_lambda0002'
-	data_dir = 'imaterials/20'
-	data = imaterials(data_dir)
+	sample_dir = 'Samples/began_celebA_gamma075_lambda001'
+	model_dir = 'Models/began_celebA_gamma075_lambda001'
+	data_dir = 'celebA'
+	data = celebA(data_dir)
 	
 	if not os.path.exists(sample_dir):
 		os.makedirs(sample_dir)
