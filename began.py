@@ -11,8 +11,8 @@ sys.path.append('utils')
 from nets import *
 from datas import *
 
-GAMMA = 0.75
-LAMDBA_K = 0.1
+GAMMA = 0.075
+LAMDBA_K = 0.001
 EPOCHS = 50000
 
 def sample_z(m, n):
@@ -123,8 +123,8 @@ if __name__ == '__main__':
 	#os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 
 	# input and output folders
-	sample_dir = 'Samples/began_celebA_gamma075_lambda01'
-	model_dir = 'Models/began_celebA_gamma075_lambda01'
+	sample_dir = 'Samples/began_celebA_gamma0075_lambda0001'
+	model_dir = 'Models/began_celebA_gamma0075_lambda0001'
 	data_dir = 'celebA'
 	data = celebA(data_dir)
 	
