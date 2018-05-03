@@ -123,8 +123,8 @@ if __name__ == '__main__':
 	#os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 
 	# input and output folders
-	sample_dir = 'Samples/began_celebA_gamma075_lambda0001'
-	model_dir = 'Models/began_celebA_gamma075_lambda0001'
+	sample_dir = 'Samples/began_celebA_gamma075_lambda0001_again'
+	model_dir = 'Models/began_celebA_gamma075_lambda0001_again'
 	data_dir = 'celebA'
 	data = celebA(data_dir)
 	
